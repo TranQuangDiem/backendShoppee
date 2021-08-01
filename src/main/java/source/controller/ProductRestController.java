@@ -2,8 +2,6 @@ package source.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Product;
@@ -13,16 +11,14 @@ import source.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api")
 public class ProductRestController {
     @Autowired
     ProductService productService;
-    @GetMapping("/product/{id}")
-    public ResponseEntity getProductById(@PathVariable(value = "id") long id){
+    @GetMapping("/product")
+    public ResponseEntity getProductById(@RequestParam(value = "id") long id){
         Product product = productService.findById(id);
         if(product!=null)
         return ResponseEntity.ok().body(productService.findById(id));

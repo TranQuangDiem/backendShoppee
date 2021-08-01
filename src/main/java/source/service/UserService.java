@@ -20,6 +20,12 @@ public class UserService implements UserDetailsService {
     public User findByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    public void save(User user){
+
+        userRepository.save(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
