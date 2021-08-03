@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Product;
 import source.payload.Message;
+import source.payload.Pagination;
 import source.payload.ProductsReponse;
 import source.service.ProductService;
 
@@ -69,9 +70,11 @@ public class ProductRestController {
         }
         ProductsReponse products = new ProductsReponse();
         products.setProducts(pagedListHolder.getPageList());
-        products.setLimit(pagesize);
-        products.setPage(page);
-        products.setTotal(productPage.size());
+        Pagination pagination = new Pagination();
+        pagination.set_limit(pagesize);
+        pagination.set_page(page);
+        pagination.set_total(productPage.size());
+        products.setPagination(pagination);
         return ResponseEntity.ok().body(products);
     }
 }
