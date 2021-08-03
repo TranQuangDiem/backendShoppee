@@ -12,6 +12,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByIdAndActive(long id, int active);
 
     List<Product> findByActive(int active);
+    List<Product> findByActiveOrderByCreateDateDesc(int active);
+    List<Product> findByActiveOrderByQuantitySoldDesc(int active);
+    List<Product> findByActiveAndStatus(int active,String status);
     // danh sách sản phẩm theo  tên sản phẩm
     List<Product> findByNameLikeAndActive(String name,int active);
 
@@ -78,9 +81,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //danh sách sản phẩm theo trạng thái
     List<Product> findByStatusAndActive(String status, int active);
-
-    //danhsachs sản phẩm theo ngày tạo giảm dần
-    List<Product> findByActiveOrderByCreateDateDesc(int active);
 
     // danh sách sản phẩm sắp xếp theo ngày tạo tăng dần
     List<Product> findByActiveOrderByCreateDateAsc(int active);

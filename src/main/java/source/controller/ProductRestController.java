@@ -28,7 +28,7 @@ public class ProductRestController {
     public ResponseEntity danhsach(@RequestParam(value = "search", required = false) String search, @RequestParam(required = false, value = "_page") Integer page,
                                    @RequestParam("_limit") Optional<Integer> size, @RequestParam(value = "brand", required = false) Optional<Long> brand,
                                    @RequestParam(value = "_sortBy",required = false) String sortBy, @RequestParam(value = "priceMin",required = false) Optional<Double> priceMin,
-                                   @RequestParam(value = "priceMax", required = false) Optional<Double> priceMax,@RequestParam(value = "_sortPrice",required = false) String sortPrice,
+                                   @RequestParam(value = "priceMax", required = false) Optional<Double> priceMax,@RequestParam(value = "_order",required = false) String sortPrice,
                                    @RequestParam(value = "rate",required = false) Optional<Double> rate) {
         double price_min = priceMin.orElse((double) 0);
         double price_max = priceMax.orElse((double) 0);
@@ -36,20 +36,23 @@ public class ProductRestController {
         long brand_id = brand.orElse((long) 0);
         double rateMin =-1;
         double rateMax =0;
-        if (rate1<=1) {
+        if (rate1==0){
+            rateMin =-1;
+            rateMax =0;
+        }else if (rate1<=2) {
             rateMin=0;
            rateMax = 1.99;
-        }else if (rate1<=2){
+        }else if (rate1<3){
             rateMin=2;
             rateMax=2.99;
-        }else if (rate1<=3){
+        }else if (rate1<4){
             rateMin=3;
             rateMax=3.99;
-        }else if (rate1<=4){
+        }else if (rate1<5){
             rateMin=4;
             rateMax=4.99;
-        }else{
-            rateMin=4.9;
+        }else if (rate1==5){
+            rateMin=4.99;
             rateMax=5;
         }
         List<Product> productPage;
