@@ -20,7 +20,7 @@ import source.model.CustomUserDetails;
 import source.payload.UserReponse;
 import source.service.RoleService;
 import source.service.UserService;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class UserRestController {

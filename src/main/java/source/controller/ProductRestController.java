@@ -11,7 +11,7 @@ import source.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ProductRestController {
@@ -24,6 +24,7 @@ public class ProductRestController {
         return ResponseEntity.ok().body(productService.findById(id));
         return ResponseEntity.badRequest().body(new Message("product không có trong hệ thống"));
     }
+
     @GetMapping("/products")
     public ResponseEntity danhsach(@RequestParam(value = "search", required = false) String search, @RequestParam(required = false, value = "_page") Integer page,
                                    @RequestParam("_limit") Optional<Integer> size, @RequestParam(value = "brand", required = false) Optional<Long> brand,
