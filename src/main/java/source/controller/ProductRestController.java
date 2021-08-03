@@ -4,12 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import source.entity.Brand;
+import source.entity.Comment;
 import source.entity.Product;
 import source.payload.Message;
 import source.payload.Pagination;
 import source.payload.ProductsReponse;
+import source.service.BrandService;
+import source.service.CommentService;
 import source.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
@@ -18,6 +23,15 @@ import java.util.Optional;
 public class ProductRestController {
     @Autowired
     ProductService productService;
+    @Autowired
+    BrandService brandService;
+
+    @GetMapping("/brands")
+    public ResponseEntity getBrands(){
+        List<Brand> brands = brandService.findAll();
+            return ResponseEntity.ok().body(brands);
+    }
+
     @GetMapping("/product")
     public ResponseEntity getProductById(@RequestParam(value = "id") long id){
         Product product = productService.findById(id);

@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 03/08/2021 12:26:02
+ Date: 03/08/2021 22:58:04
 */
 
 SET NAMES utf8mb4;
@@ -128,13 +128,19 @@ CREATE TABLE `comment`  (
   `active` int(11) NOT NULL,
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `date` date NULL DEFAULT NULL,
-  `product_id` bigint(20) NOT NULL,
+  `idproduct` bigint(20) NOT NULL,
   `rate` int(11) NOT NULL,
   `user_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK8kcum44fvpupyw6f5baccx25c`(`user_id`) USING BTREE,
   CONSTRAINT `FK8kcum44fvpupyw6f5baccx25c` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of comment
+-- ----------------------------
+INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1, 4, 1);
+INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2);
 
 -- ----------------------------
 -- Table structure for image
