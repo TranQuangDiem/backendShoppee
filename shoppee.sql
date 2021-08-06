@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 06/08/2021 16:32:07
+ Date: 06/08/2021 16:39:30
 */
 
 SET NAMES utf8mb4;
@@ -332,7 +332,7 @@ INSERT INTO `product_image` VALUES (20, 4);
 DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` int(11) NOT NULL,
+  `value` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

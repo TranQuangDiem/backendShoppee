@@ -11,5 +11,5 @@ public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int name;
+    private int value;
 }
