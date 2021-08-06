@@ -18,7 +18,7 @@ public class Product {
     private String name;
     private double price;
     private int quantitySold;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     // Quan hệ n-n với đối tượng ở dưới (product)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()

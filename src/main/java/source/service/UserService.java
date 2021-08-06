@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import source.entity.User;
 import source.model.CustomUserDetails;
+import source.payload.UserEditDTO;
+import source.payload.UserReponse;
 import source.repository.UserRepository;
 
 @Service
@@ -25,7 +27,16 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
     }
-
+    public void edit(UserEditDTO userEditDTO, User user){
+        user.setEmail(userEditDTO.getEmail());
+        user.setFullname(userEditDTO.getFullname());
+        user.setAddress(userEditDTO.getAddress());
+        user.setPhone(userEditDTO.getPhone());
+        userRepository.save(user);
+    }
+    public User findById(long id){
+        return userRepository.findById(id);
+    }
     @Override
     public UserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?

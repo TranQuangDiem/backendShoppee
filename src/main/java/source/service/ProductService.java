@@ -33,9 +33,9 @@ public class ProductService {
                     return productRepository.findByNameLikeAndActiveOrderByQuantitySoldDesc(search, 1);
                 } else if ("price".equals(sortBy) && sortPrice != null) {
                     if ("asc".equals(sortPrice)) {
-                        return productRepository.findByNameLikeAndActiveOrderByPriceAsc(search, 1);
+                        return productRepository.findByNameLikeAndActiveOrderBySalePriceAsc(search, 1);
                     } else {
-                        return productRepository.findByNameLikeAndActiveOrderByPriceDesc(search, 1);
+                        return productRepository.findByNameLikeAndActiveOrderBySalePriceDesc(search, 1);
                     }
                 }
             }else {
@@ -46,14 +46,14 @@ public class ProductService {
                 if ("ctime".equals(sortBy)){
                     return productRepository.findByBrand_IdAndActiveOrderByCreateDateDesc(brand,1);
                 }else if ("sales".equals(sortBy)){
-                    return productRepository.findByBrand_IdAndActiveOrderByPriceAsc(brand,1);
+                    return productRepository.findByBrand_IdAndActiveOrderBySalePriceAsc(brand,1);
                 }else if ("pop".equals(sortBy)){
                     return productRepository.findByBrand_IdAndActiveAndStatus(brand,1,"phổ biến");
                 }else if ("price".equals(sortBy)&&sortPrice!=null) {
                     if ("asc".equals(sortPrice)) {
-                        return productRepository.findByBrand_IdAndActiveOrderByPriceAsc(brand, 1);
+                        return productRepository.findByBrand_IdAndActiveOrderBySalePriceAsc(brand, 1);
                     } else {
-                        return productRepository.findByBrand_IdAndActiveOrderByPriceDesc(brand, 1);
+                        return productRepository.findByBrand_IdAndActiveOrderBySalePriceDesc(brand, 1);
                     }
                 }
             }else {
@@ -62,20 +62,20 @@ public class ProductService {
         }else if (priceMin!=0&&priceMax!=0){
                if (sortBy!=null){
                     if ("ctime".equals(sortBy)){
-                        return productRepository.findByPriceBetweenAndActiveOrderByCreateDateDesc(priceMin,priceMax,1);
+                        return productRepository.findBySalePriceBetweenAndActiveOrderByCreateDateDesc(priceMin,priceMax,1);
                     }else if ("sales".equals(sortBy)){
-                        return productRepository.findByPriceBetweenAndActiveOrderByQuantitySoldDesc(priceMin,priceMax,1);
+                        return productRepository.findBySalePriceBetweenAndActiveOrderByQuantitySoldDesc(priceMin,priceMax,1);
                     }else if ("pop".equals(sortBy)){
-                        return productRepository.findByPriceBetweenAndActiveAndStatus(priceMin,priceMax,1,"phổ biến");
+                        return productRepository.findBySalePriceBetweenAndActiveAndStatus(priceMin,priceMax,1,"phổ biến");
                     }else if (sortPrice!=null){
                         if ("asc".equals(sortPrice)){
-                            return productRepository.findByPriceBetweenAndActiveOrderByPriceAsc(priceMin,priceMax,1);
+                            return productRepository.findBySalePriceBetweenAndActiveOrderBySalePriceAsc(priceMin,priceMax,1);
                         }else{
-                            return productRepository.findByPriceBetweenAndActiveOrderByPriceDesc(priceMin,priceMax,1);
+                            return productRepository.findBySalePriceBetweenAndActiveOrderBySalePriceDesc(priceMin,priceMax,1);
                         }
                     }
                 }else {
-                    return productRepository.findByPriceBetweenAndActive(priceMin,priceMax,1);
+                    return productRepository.findBySalePriceBetweenAndActive(priceMin,priceMax,1);
                 }
         }else if (rateMin!=-1&&rateMax!=0) {
                     if (sortBy != null) {
@@ -87,9 +87,9 @@ public class ProductService {
                             return productRepository.findByRateBetweenAndActiveAndStatus(rateMin, rateMax, 1, "phổ biến");
                         } else if ("price".equals(sortBy)&&sortPrice != null) {
                             if ("asc".equals(sortPrice)) {
-                                return productRepository.findByRateBetweenAndActiveOrderByPriceAsc(rateMin, rateMax, 1);
+                                return productRepository.findByRateBetweenAndActiveOrderBySalePriceAsc(rateMin, rateMax, 1);
                             } else {
-                                return productRepository.findByRateBetweenAndActiveOrderByPriceDesc(rateMin, rateMax, 1);
+                                return productRepository.findByRateBetweenAndActiveOrderBySalePriceDesc(rateMin, rateMax, 1);
                             }
                         }
                     } else {
@@ -104,9 +104,9 @@ public class ProductService {
                 return productRepository.findByActiveAndStatus(1, "phổ biến");
             } else if ("price".equals(sortBy)&&sortPrice != null) {
                 if ("asc".equals(sortPrice)) {
-                    return productRepository.findByActiveOrderByPriceAsc(1);
+                    return productRepository.findByActiveOrderBySalePriceAsc(1);
                 } else {
-                    return productRepository.findByActiveOrderByPriceDesc(1);
+                    return productRepository.findByActiveOrderBySalePriceDesc(1);
                 }
             }
         }

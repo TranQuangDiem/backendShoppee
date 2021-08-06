@@ -5,16 +5,14 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Brand;
-import source.entity.Comment;
 import source.entity.Product;
 import source.payload.Message;
 import source.payload.Pagination;
 import source.payload.ProductsReponse;
 import source.service.BrandService;
-import source.service.CommentService;
 import source.service.ProductService;
+import source.service.RateService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,7 +23,8 @@ public class ProductRestController {
     ProductService productService;
     @Autowired
     BrandService brandService;
-
+    @Autowired
+    RateService rateService;
     @GetMapping("/brands")
     public ResponseEntity getBrands(){
         List<Brand> brands = brandService.findAll();
@@ -38,6 +37,10 @@ public class ProductRestController {
         if(product!=null)
         return ResponseEntity.ok().body(productService.findById(id));
         return ResponseEntity.badRequest().body(new Message("product không có trong hệ thống"));
+    }
+    @GetMapping("/rates")
+    public ResponseEntity getRate(){
+        return ResponseEntity.ok().body(rateService.findAll());
     }
 
     @GetMapping("/products")
@@ -57,19 +60,26 @@ public class ProductRestController {
             rateMax =0;
         }else if (rate1<=2) {
             rateMin=0;
-           rateMax = 1.99;
+           rateMax = 5;
         }else if (rate1<3){
             rateMin=2;
-            rateMax=2.99;
+            rateMax=5;
         }else if (rate1<4){
             rateMin=3;
-            rateMax=3.99;
+            rateMax=5;
         }else if (rate1<5){
             rateMin=4;
-            rateMax=4.99;
+            rateMax=5;
         }else if (rate1==5){
             rateMin=4.99;
             rateMax=5;
+        }
+        if("asc".equals(sortBy)){
+            sortPrice="asc";
+            sortBy="price";
+        }else if("desc".equals(sortBy)){
+            sortPrice="desc";
+            sortBy="price";
         }
         List<Product> productPage;
         productPage = productService.findPaginated(search,price_min,price_max,brand_id,sortBy,sortPrice,rateMin,rateMax);

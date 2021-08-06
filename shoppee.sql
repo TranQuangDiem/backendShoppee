@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 03/08/2021 22:58:04
+ Date: 06/08/2021 16:32:07
 */
 
 SET NAMES utf8mb4;
@@ -325,6 +325,25 @@ INSERT INTO `product_image` VALUES (19, 2);
 INSERT INTO `product_image` VALUES (19, 1);
 INSERT INTO `product_image` VALUES (20, 3);
 INSERT INTO `product_image` VALUES (20, 4);
+
+-- ----------------------------
+-- Table structure for rate
+-- ----------------------------
+DROP TABLE IF EXISTS `rate`;
+CREATE TABLE `rate`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of rate
+-- ----------------------------
+INSERT INTO `rate` VALUES (1, 1);
+INSERT INTO `rate` VALUES (2, 2);
+INSERT INTO `rate` VALUES (3, 3);
+INSERT INTO `rate` VALUES (4, 4);
+INSERT INTO `rate` VALUES (5, 5);
 
 -- ----------------------------
 -- Table structure for role

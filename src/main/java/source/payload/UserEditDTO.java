@@ -2,14 +2,14 @@ package source.payload;
 
 import lombok.Data;
 import source.entity.Role;
+
 @Data
-public class UserReponse {
+public class UserEditDTO {
     private Long id;
     private String fullname;
-    private String avatar;
     private String email;
     private boolean gender;
-    private String address;
     private String phone;
+    private String address;
     private Role role;
 }

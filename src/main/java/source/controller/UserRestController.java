@@ -12,12 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Role;
 import source.entity.User;
+import source.jwt.JwtAuthenticationFilter;
 import source.jwt.JwtTokenProvider;
-import source.payload.LoginRequest;
-import source.payload.LoginResponse;
-import source.payload.Message;
+import source.payload.*;
 import source.model.CustomUserDetails;
-import source.payload.UserReponse;
 import source.service.RoleService;
 import source.service.UserService;
 @CrossOrigin(origins = "http://localhost:3000")
@@ -78,7 +76,20 @@ public class UserRestController {
         String jwt = tokenProvider.generateToken(userService.findByEmail(user.getEmail()));
         return ResponseEntity.ok().body(new LoginResponse(jwt,userDto));
     }
-
+    @PutMapping("user/edit")
+    public ResponseEntity editUser(@RequestBody UserEditDTO userEditDTO, @RequestHeader("Authorization") String jwt){
+        String [] a = jwt.split(" ");
+        if (a.length!=2)
+            return ResponseEntity.status(401).body("Authenticaton");
+        long id = tokenProvider.getUserIdFromJWT(a[1]);
+        User user = userService.findById(id);
+        if (user!=null) {
+//            userService.edit(userEditDTO, user);
+            return ResponseEntity.ok().body("cập nhật thông tin user thành công");
+        }else {
+            return ResponseEntity.status(400).body(new Message("Tài khoản không tồn tại trong hệ thống"));
+        }
+    }
     // Api /api/random yêu cầu phải xác thực mới có thể request
     @GetMapping("/random")
     public Message randomStuff(@RequestHeader("Authorization") String jwt){
