@@ -16,6 +16,7 @@ import source.jwt.JwtAuthenticationFilter;
 import source.jwt.JwtTokenProvider;
 import source.payload.*;
 import source.model.CustomUserDetails;
+import source.service.ForgotPasswordService;
 import source.service.RoleService;
 import source.service.UserService;
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,6 +38,8 @@ public class UserRestController {
     RoleService roleService;
     @Autowired
     ModelMapper mapper;
+    @Autowired
+    ForgotPasswordService forgotPasswordService;
     @PostMapping("/login")
     public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         // Xác thực thông tin người dùng Request lên
@@ -96,6 +99,21 @@ public class UserRestController {
         String [] a = jwt.split(" ");
         System.out.println( tokenProvider.getUserIdFromJWT(a[1]));
         return new Message("JWT Hợp lệ mới có thể thấy được message này");
+    }
+    @PostMapping("/user/forgotPassword")
+    public ResponseEntity forgotPass(@RequestBody String email){
+        if (email.trim()==null)return ResponseEntity.badRequest().body(new Message("vui lòng nhập email"));
+        User user = userService.findByEmail(email);
+        if (user!=null){
+                try {
+                    forgotPasswordService.save(email);
+                    return ResponseEntity.ok().body(new Message("Vui lòng kiểm tra email để lấy OPT"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResponseEntity.badRequest().body(new Message("Hệ thống gặp sự cố ! vui lòng thử lại sau"));
+                }
+        }
+        return ResponseEntity.badRequest().body(new Message("email không tồn tại trong hệ thống"));
     }
 
 }

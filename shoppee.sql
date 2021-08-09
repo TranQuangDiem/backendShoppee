@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 06/08/2021 16:39:30
+ Date: 09/08/2021 22:32:13
 */
 
 SET NAMES utf8mb4;
@@ -25,15 +25,18 @@ CREATE TABLE `brand`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `active` int(11) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of brand
 -- ----------------------------
-INSERT INTO `brand` VALUES (1, 1, 'quần áo');
-INSERT INTO `brand` VALUES (2, 1, 'giày dép');
-INSERT INTO `brand` VALUES (3, 1, 'thiết bị điện tử');
+INSERT INTO `brand` VALUES (1, 1, 'tất cả', 'active', NULL);
+INSERT INTO `brand` VALUES (2, 1, 'giày dép', 'none', NULL);
+INSERT INTO `brand` VALUES (3, 1, 'thiết bị điện tử', 'none', NULL);
+INSERT INTO `brand` VALUES (4, 1, 'quần áo', 'none', NULL);
 
 -- ----------------------------
 -- Table structure for cart
@@ -143,6 +146,17 @@ INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1,
 INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2);
 
 -- ----------------------------
+-- Table structure for forgot_password
+-- ----------------------------
+DROP TABLE IF EXISTS `forgot_password`;
+CREATE TABLE `forgot_password`  (
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `date` datetime(0) NULL DEFAULT NULL,
+  `otp` int(11) NOT NULL,
+  PRIMARY KEY (`email`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for image
 -- ----------------------------
 DROP TABLE IF EXISTS `image`;
@@ -187,13 +201,13 @@ CREATE TABLE `product`  (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES (1, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 100000, 2, 4.5, 'phổ biến', 1, '2021-07-12', 20, 80000, NULL);
+INSERT INTO `product` VALUES (1, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 100000, 2, 4.5, 'phổ biến', 4, '2021-07-12', 20, 80000, NULL);
 INSERT INTO `product` VALUES (2, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 500000, 0, 5, NULL, 3, '2021-07-26', 9, 300000, NULL);
-INSERT INTO `product` VALUES (3, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 300000, 13, 3, 'phổ biến', 1, '2021-06-08', 12, 300000, NULL);
+INSERT INTO `product` VALUES (3, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 300000, 13, 3, 'phổ biến', 4, '2021-06-08', 12, 300000, NULL);
 INSERT INTO `product` VALUES (4, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 249000, 6, 4.2, NULL, 3, '2021-07-05', 16, 249000, NULL);
-INSERT INTO `product` VALUES (5, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 4, 2.8, 'phổ biến', 1, '2021-06-29', 28, 490000, NULL);
+INSERT INTO `product` VALUES (5, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 4, 2.8, 'phổ biến', 4, '2021-06-29', 28, 490000, NULL);
 INSERT INTO `product` VALUES (6, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 199000, 5, 4, NULL, 3, '2021-07-19', 5, 199000, NULL);
-INSERT INTO `product` VALUES (7, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 150000, 9, 1, NULL, 1, '2021-07-14', 10, 150000, NULL);
+INSERT INTO `product` VALUES (7, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 150000, 9, 1, NULL, 4, '2021-07-14', 10, 150000, NULL);
 INSERT INTO `product` VALUES (8, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 1, 1, 'phổ biến', 2, '2021-07-01', 0, 490000, NULL);
 INSERT INTO `product` VALUES (9, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 750000, 0, 3, 'phổ biến', 3, '2021-07-12', 0, 750000, NULL);
 INSERT INTO `product` VALUES (10, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 649000, 3, 2.4, NULL, 2, '2021-07-25', 7, 649000, NULL);
@@ -333,17 +347,18 @@ DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `value` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rate
 -- ----------------------------
-INSERT INTO `rate` VALUES (1, 1);
-INSERT INTO `rate` VALUES (2, 2);
-INSERT INTO `rate` VALUES (3, 3);
-INSERT INTO `rate` VALUES (4, 4);
-INSERT INTO `rate` VALUES (5, 5);
+INSERT INTO `rate` VALUES (1, 1, 0);
+INSERT INTO `rate` VALUES (2, 2, 0);
+INSERT INTO `rate` VALUES (3, 3, 0);
+INSERT INTO `rate` VALUES (4, 4, 0);
+INSERT INTO `rate` VALUES (5, 5, 0);
 
 -- ----------------------------
 -- Table structure for role

@@ -66,7 +66,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findBySalePriceBetweenAndActiveAndStatus(double min, double max,int active,String status);
 
     //danh sách sản phẩm theo khoảng sao (đánh giá)
-    List<Product> findByRateBetweenAndActive(double rateMin, double rateMax, int active);
+    List<Product> findByRateBetweenAndActiveOrderByRateDesc(double rateMin, double rateMax, int active);
     List<Product> findByRateBetweenAndActiveOrderBySalePriceAsc(double rateMin, double rateMax, int active);
     List<Product> findByRateBetweenAndActiveOrderBySalePriceDesc(double rateMin, double rateMax, int active);
     List<Product> findByRateBetweenAndActiveOrderByCreateDateDesc(double rateMin, double rateMax, int active);

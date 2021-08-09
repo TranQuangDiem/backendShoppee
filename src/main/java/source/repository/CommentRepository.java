@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
-    List<Comment> findByIdproductOrderByDateDesc(long idproduct);
+    List<Comment> findByIdproductAndActiveOrderByIdDesc(long idproduct,int active);
+    List<Comment> findByIdproductAndRateAndActiveOrderByIdDesc(long idproduct,int rate,int active);
+
 }

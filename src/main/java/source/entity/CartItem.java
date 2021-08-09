@@ -16,10 +16,10 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    @ManyToMany(mappedBy = "cartItems")
-    // LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới query
-    @EqualsAndHashCode.Exclude
-    private List<Cart> cart;
+//    @ManyToMany(mappedBy = "cartItems")
+//    // LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới query
+//    @EqualsAndHashCode.Exclude
+//    private List<Cart> cart;
     private int amount;
     private int active;
 }

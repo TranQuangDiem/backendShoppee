@@ -13,4 +13,6 @@ public class Brand {
     private long id;
     private String name;
     private int active;
+    private String status;
+    private String value;
 }

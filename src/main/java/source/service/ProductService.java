@@ -93,7 +93,7 @@ public class ProductService {
                             }
                         }
                     } else {
-                        return productRepository.findByRateBetweenAndActive(rateMin, rateMax, 1);
+                        return productRepository.findByRateBetweenAndActiveOrderByRateDesc(rateMin, rateMax, 1);
                     }
         }else if (sortBy != null) {
             if ("ctime".equals(sortBy)) {

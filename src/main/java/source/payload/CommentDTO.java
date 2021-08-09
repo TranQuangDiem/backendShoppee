@@ -6,8 +6,7 @@ import java.util.Date;
 @Data
 public class CommentDTO {
     private long id;
-    private UserReponse user;
-    private long idproduct;
+    private String userName;
     private int rate;
     private String content;
     private Date date;
