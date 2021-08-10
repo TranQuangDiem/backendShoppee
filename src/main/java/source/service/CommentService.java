@@ -32,7 +32,7 @@ public class CommentService {
     public List<CommentDTO> findByIdProductAndRate(long idproduct,int rate){
         List<Comment> comments =commentRepository.findByIdproductAndActiveOrderByIdDesc(idproduct,1);
         List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
-        if (rate!=0){
+        if (rate>0){
             comments = commentRepository.findByIdproductAndRateAndActiveOrderByIdDesc(idproduct,rate,1);
         }
         if (comments!=null){

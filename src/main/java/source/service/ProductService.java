@@ -41,7 +41,7 @@ public class ProductService {
             }else {
                 return productRepository.findByNameLikeAndActive(search, 1);
             }
-        }else if (brand!=0){
+        }else if (brand>1){
             if (sortBy!=null){
                 if ("ctime".equals(sortBy)){
                     return productRepository.findByBrand_IdAndActiveOrderByCreateDateDesc(brand,1);

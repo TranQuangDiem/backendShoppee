@@ -11,5 +11,7 @@ public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int value;
+    private String value;
+    private String Status;
+    private int sumCmt;
 }

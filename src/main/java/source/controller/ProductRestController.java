@@ -52,7 +52,7 @@ public class ProductRestController {
         double price_min = priceMin.orElse((double) 0);
         double price_max = priceMax.orElse((double) 0);
         double rate1 = rate.orElse((double) 0);
-        long brand_id = brand.orElse((long) 0);
+        long brand_id = brand.orElse((long) -1);
         double rateMin =-1;
         double rateMax =0;
         if (rate1==0){

@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 09/08/2021 22:32:13
+ Date: 10/08/2021 13:03:59
 */
 
 SET NAMES utf8mb4;
@@ -215,11 +215,11 @@ INSERT INTO `product` VALUES (11, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000,
 INSERT INTO `product` VALUES (12, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 99000, 4, 5, 'phổ biến', 2, '2021-07-13', 7, 99000, NULL);
 INSERT INTO `product` VALUES (13, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 5, 5, NULL, 2, '2021-07-22', 7, 490000, NULL);
 INSERT INTO `product` VALUES (14, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 320000, 9, 5, 'phổ biến', 2, '2021-07-31', 7, 320000, NULL);
-INSERT INTO `product` VALUES (15, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 10, 4, 'phổ biến', 1, '2021-07-09', 0, 490000, NULL);
+INSERT INTO `product` VALUES (15, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 10, 4, 'phổ biến', 4, '2021-07-09', 0, 490000, NULL);
 INSERT INTO `product` VALUES (16, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 429000, 15, 3, NULL, 3, '2021-07-30', 0, 429000, NULL);
 INSERT INTO `product` VALUES (17, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 549000, 12, 3, NULL, 2, '2021-07-26', 0, 549000, NULL);
 INSERT INTO `product` VALUES (18, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 10, 2, 'phổ biến', 3, '2021-07-30', 50, 490000, NULL);
-INSERT INTO `product` VALUES (19, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 699000, 30, 2, NULL, 1, '2021-08-02', 50, 699000, NULL);
+INSERT INTO `product` VALUES (19, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 699000, 30, 2, NULL, 4, '2021-08-02', 50, 699000, NULL);
 INSERT INTO `product` VALUES (20, 1, 'LEVENTS SWEATER 0.5 FLORAL/ GREY', 490000, 23, 4, NULL, 3, '2021-07-30', 50, 490000, NULL);
 
 -- ----------------------------
@@ -346,19 +346,21 @@ INSERT INTO `product_image` VALUES (20, 4);
 DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `value` int(11) NOT NULL,
-  `name` int(11) NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `sum_cmt` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rate
 -- ----------------------------
-INSERT INTO `rate` VALUES (1, 1, 0);
-INSERT INTO `rate` VALUES (2, 2, 0);
-INSERT INTO `rate` VALUES (3, 3, 0);
-INSERT INTO `rate` VALUES (4, 4, 0);
-INSERT INTO `rate` VALUES (5, 5, 0);
+INSERT INTO `rate` VALUES (1, 'tất cả', 'active', 0);
+INSERT INTO `rate` VALUES (2, '1  sao', 'none', 0);
+INSERT INTO `rate` VALUES (3, '2 sao', 'none', 0);
+INSERT INTO `rate` VALUES (4, '3 sao', 'none', 0);
+INSERT INTO `rate` VALUES (5, '4 sao', 'none', 0);
+INSERT INTO `rate` VALUES (6, '5 sao', 'none', 0);
 
 -- ----------------------------
 -- Table structure for role
