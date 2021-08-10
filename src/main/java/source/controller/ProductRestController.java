@@ -11,7 +11,7 @@ import source.payload.Pagination;
 import source.payload.ProductsReponse;
 import source.service.BrandService;
 import source.service.ProductService;
-import source.service.RateService;
+import source.service.RateProductService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class ProductRestController {
     @Autowired
     BrandService brandService;
     @Autowired
-    RateService rateService;
+    RateProductService rateProductService;
     @GetMapping("/brands")
     public ResponseEntity getBrands(){
         List<Brand> brands = brandService.findAll();
@@ -40,7 +40,7 @@ public class ProductRestController {
     }
     @GetMapping("/rates")
     public ResponseEntity getRate(){
-        return ResponseEntity.ok().body(rateService.findAll());
+        return ResponseEntity.ok().body(rateProductService.findAll());
     }
 
     @GetMapping("/products")
