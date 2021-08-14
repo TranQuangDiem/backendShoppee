@@ -20,7 +20,8 @@ public class User {
     private String email;
     @NotBlank
     private String password;
-    private boolean gender;
+    @Transient
+    private String repassword;
     private String phone;
     private String address;
     @OneToOne

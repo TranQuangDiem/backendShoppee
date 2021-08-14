@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 10/08/2021 15:35:34
+ Date: 14/08/2021 13:42:37
 */
 
 SET NAMES utf8mb4;
@@ -157,6 +157,11 @@ CREATE TABLE `forgot_password`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of forgot_password
+-- ----------------------------
+INSERT INTO `forgot_password` VALUES ('trandiem1006@gmail.com', '2021-08-14 13:34:25', 10436901);
+
+-- ----------------------------
 -- Table structure for image
 -- ----------------------------
 DROP TABLE IF EXISTS `image`;
@@ -233,7 +238,7 @@ CREATE TABLE `product_color`  (
   INDEX `FKqb6lncpndi0w5po3rr5r9up5e`(`product_id`) USING BTREE,
   CONSTRAINT `FK3iys6jgmsdkw7w5ncgm55wgj3` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqb6lncpndi0w5po3rr5r9up5e` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_color
@@ -290,7 +295,7 @@ CREATE TABLE `product_image`  (
   INDEX `FK6oo0cvcdtb6qmwsga468uuukk`(`product_id`) USING BTREE,
   CONSTRAINT `FK6oo0cvcdtb6qmwsga468uuukk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKbhddxsl8axd5io2wgkcoealn5` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_image
@@ -423,7 +428,6 @@ CREATE TABLE `user`  (
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `gender` bit(1) NOT NULL,
   `role` bigint(20) NULL DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -431,13 +435,14 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe`(`email`) USING BTREE,
   INDEX `FKl5alypubd40lwejc45vl35wjb`(`role`) USING BTREE,
   CONSTRAINT `FKl5alypubd40lwejc45vl35wjb` FOREIGN KEY (`role`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '$2a$10$9ygQCpADYrPaPCraKf46oe1kTzgs6GEJOJcFxuLuVJyPTAqnGLm7S', 'trandiem1006@gmail.com', 'Trn diem', b'0', 1, NULL, NULL);
-INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', b'0', 1, 'HCM', '0988766567');
-INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', b'0', 1, 'HCM', '0988766567');
+INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, 'linh đông, thành phố thủ đức, thành phố Hồ Chí Minh', '0355541981');
+INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, 'HCM', '0988766567');
+INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, 'HCM', '0988766567');
+INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, 'HCM', '0988766567');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -8,7 +8,6 @@ public class UserReponse {
     private String fullname;
     private String avatar;
     private String email;
-    private boolean gender;
     private String address;
     private String phone;
     private Role role;

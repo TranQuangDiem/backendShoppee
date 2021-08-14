@@ -10,9 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import source.entity.Role;
+import source.entity.ForgotPassword;
 import source.entity.User;
-import source.jwt.JwtAuthenticationFilter;
 import source.jwt.JwtTokenProvider;
 import source.payload.*;
 import source.model.CustomUserDetails;
@@ -67,6 +66,8 @@ public class UserRestController {
     // api/register api đăng ký
     @PostMapping("/register")
     public ResponseEntity register(@Valid @RequestBody User user){
+        if (!user.getPassword().trim().equals(user.getRepassword().trim()))
+            return ResponseEntity.badRequest().body(new Message("password không trùng khớp"));
         if(user.getEmail().matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"))
             return ResponseEntity.badRequest().body(new Message("Email không hợp lệ"));
         if (userService.findByEmail(user.getEmail())!=null)
@@ -101,7 +102,9 @@ public class UserRestController {
         return new Message("JWT Hợp lệ mới có thể thấy được message này");
     }
     @PostMapping("/user/forgotPassword")
-    public ResponseEntity forgotPass(@RequestBody String email){
+    public ResponseEntity forgotPass(@RequestBody ForgotPassword forgotPassword){
+        System.out.println(forgotPassword.getEmail());
+        String email = forgotPassword.getEmail();
         if (email.trim()==null)return ResponseEntity.badRequest().body(new Message("vui lòng nhập email"));
         User user = userService.findByEmail(email);
         if (user!=null){
@@ -114,6 +117,27 @@ public class UserRestController {
                 }
         }
         return ResponseEntity.badRequest().body(new Message("email không tồn tại trong hệ thống"));
+    }
+    @PostMapping("/user/changePassword")
+    public ResponseEntity changePass(@RequestBody ChangePassword changePassword){
+        ForgotPassword forgotPassword= forgotPasswordService.findByEmail(changePassword.getEmail());
+        if (forgotPassword!=null){
+            if (!changePassword.getPassword().trim().equals(changePassword.getRepassword().trim()))
+                return ResponseEntity.badRequest().body(new Message("password không trùng khớp"));
+            if (forgotPassword.getOtp()!=changePassword.getOtp())
+                return ResponseEntity.badRequest().body(new Message("Mã Otp không đúng"));
+            if (forgotPasswordService.checkOtp(changePassword.getEmail(),changePassword.getOtp())!=null){
+                User user = userService.findByEmail(changePassword.getEmail());
+                user.setPassword(passwordEncoder.encode(changePassword.getPassword()));
+                userService.save(user);
+                forgotPasswordService.delete(forgotPassword);
+                return ResponseEntity.ok().body("Đổi password thành công");
+            }else {
+                return ResponseEntity.badRequest().body(new Message("Mã Otp đã hết hạn"));
+            }
+        }
+        return ResponseEntity.badRequest().body(new Message("Email không tồn tại trong hệ thống"));
+
     }
 
 }

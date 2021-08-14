@@ -26,4 +26,13 @@ public class ForgotPasswordService {
         sendMail.sendEmail(forgotPassword.getEmail(),"Bạn muốn thay đổi mật khẩu","Mã xác thực của bạn là: "+code + " mã có thời hạn 5 phút");
         forgotPasswordRepository.save(forgotPassword);
     }
+    public ForgotPassword findByEmail(String email){
+        return forgotPasswordRepository.findByEmail(email);
+    }
+    public ForgotPassword checkOtp(String email,int otp){
+        return forgotPasswordRepository.checkOtp(email,otp);
+    }
+    public void delete(ForgotPassword forgotPassword){
+        forgotPasswordRepository.delete(forgotPassword);
+    }
 }
