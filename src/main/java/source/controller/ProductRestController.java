@@ -101,4 +101,5 @@ public class ProductRestController {
         products.setPagination(pagination);
         return ResponseEntity.ok().body(products);
     }
+
 }

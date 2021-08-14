@@ -73,6 +73,11 @@
             <artifactId>auth0-spring-security-api</artifactId>
             <version>1.0.0-rc.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!--        Mysql-->
         <dependency>
             <groupId>mysql</groupId>

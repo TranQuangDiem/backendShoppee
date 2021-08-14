@@ -10,8 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import source.jwt.JwtAuthenticationFilter;
 import source.service.UserService;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -43,9 +50,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
             .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
-
+    //This can be customized as required
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> allowOrigins = Arrays.asList("*");
+        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().configurationSource(corsConfigurationSource());
         http.cors().and().csrf().disable().authorizeRequests()
                     .antMatchers("/api/login","/api/rates","/api/register","/api/brands",
                             "/api/user/forgotPassword","/api/user/changePassword","/api/comment/rate","/api/comments","/api/product","/api/products").permitAll() // Cho phép tất cả mọi người truy cập vào 2 địa chỉ này
