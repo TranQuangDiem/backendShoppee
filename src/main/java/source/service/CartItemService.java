@@ -3,9 +3,8 @@ package source.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import source.entity.Cart;
 import source.entity.CartItem;
-import source.payload.CartRequest;
+import source.payload.CartItems;
 import source.payload.NewProduct;
 import source.repository.CartItemRepo;
 
@@ -22,11 +21,11 @@ public class CartItemService {
     public void save(CartItem cartItem){
         cartItemRepo.save(cartItem);
     }
-    public List<CartRequest> findByUserId(long userId){
-        List<CartRequest> cartRequests = new ArrayList<>();
+    public List<CartItems> findByUserId(long userId){
+        List<CartItems> cartRequests = new ArrayList<>();
         List<CartItem> cartItems = cartItemRepo.findByUserAndActive(userId,1);
         for (CartItem cartItem:cartItems) {
-            CartRequest cartRequest =mapper.map(cartItem, CartRequest.class);
+            CartItems cartRequest =mapper.map(cartItem, CartItems.class);
             NewProduct newProduct =mapper.map(cartItem.getProduct(), NewProduct.class);
             cartRequest.setNewProduct(newProduct);
             cartRequest.setIdp(newProduct.getId());

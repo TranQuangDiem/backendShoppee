@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import source.entity.CartItem;
 import source.entity.Product;
 import source.jwt.JwtTokenProvider;
+import source.payload.CartItems;
 import source.payload.CartRequest;
 import source.payload.Message;
+import source.payload.Order;
 import source.service.CartItemService;
+import source.service.CartService;
 import source.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -32,12 +34,14 @@ public class CartController {
     ModelMapper mapper;
     @Autowired
     CartItemService cartItemService;
+    @Autowired
+    CartService cartService;
     @PostMapping("/cart")
-    public ResponseEntity saveCart(@RequestBody List<CartRequest> cartRequestList,@RequestHeader("Authorization") String jwt){
+    public ResponseEntity saveCart(@RequestBody CartRequest cart, @RequestHeader("Authorization") String jwt){
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-            for (CartRequest cartRequest : cartRequestList) {
+            for (CartItems cartRequest : cart.getCartItems()) {
                 CartItem cartItem = new CartItem();
                 cartItem.setIdc(cartRequest.getIdc());
                 Product product = mapper.map(cartRequest.getNewProduct(), Product.class);
@@ -57,8 +61,21 @@ public class CartController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-            List<CartRequest> cartRequests = cartItemService.findByUserId(userId);
-            return ResponseEntity.ok().body(cartRequests);
+            List<CartItems> cartItems = cartItemService.findByUserId(userId);
+            CartRequest cartRequest = new CartRequest();
+            cartRequest.setCartItems(cartItems);
+            return ResponseEntity.ok().body(cartRequest);
+        }catch (Exception e){
+            return ResponseEntity.status(401).body(new Message("token không hợp lệ"));
+        }
+    }
+    @PostMapping("/checkout")
+    public ResponseEntity order(@RequestBody Order order , @RequestHeader("Authorization") String jwt){
+        try {
+            String[] a = jwt.split(" ");
+            long userId = tokenProvider.getUserIdFromJWT(a[1]);
+            cartService.save(order,userId);
+            return ResponseEntity.ok().body(new Message("lưu thành công"));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("token không hợp lệ"));
         }

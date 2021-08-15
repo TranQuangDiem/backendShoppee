@@ -18,8 +18,13 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private double totalPrice;
-    private double total_item;
+    private String fullname;
+    private String email;
+    private String phone;
+    private String address;
+    private long cartTotal;
+    private String payment;
+    private long totalBill;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
@@ -29,7 +34,7 @@ public class Cart {
     )
     private List<CartItem> cartItems;
     @OneToOne
-    @JoinTable(name = "status")
+    @JoinColumn(name = "status_id")
     private Status status;
     private Timestamp date;
 }

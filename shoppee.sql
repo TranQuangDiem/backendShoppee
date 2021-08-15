@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 15/08/2021 13:53:28
+ Date: 15/08/2021 20:09:54
 */
 
 SET NAMES utf8mb4;
@@ -44,14 +44,27 @@ INSERT INTO `brand` VALUES (4, 1, 'quần áo', 'none', NULL);
 DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `total_price` double NOT NULL,
-  `total_item` double NOT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `cart_total` bigint(20) NOT NULL,
   `date` datetime(0) NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `payment` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `total_bill` bigint(20) NOT NULL,
+  `status_id` bigint(20) NULL DEFAULT NULL,
+  `user_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FKob42hsql0hyy4ouflbljt3s9`(`status_id`) USING BTREE,
   INDEX `FKl70asp4l4w0jmbm1tqyofho4o`(`user_id`) USING BTREE,
-  CONSTRAINT `FKl70asp4l4w0jmbm1tqyofho4o` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  CONSTRAINT `FKl70asp4l4w0jmbm1tqyofho4o` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKob42hsql0hyy4ouflbljt3s9` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of cart
+-- ----------------------------
+INSERT INTO `cart` VALUES (1, 'tp hcm', 600000, '2021-08-15 20:03:22', 'trandiem1006@gmail.com', 'Trần Quang Diệm', 'COD', '0355541981', 620000, 2, 1);
 
 -- ----------------------------
 -- Table structure for cart_cart_item
@@ -67,26 +80,30 @@ CREATE TABLE `cart_cart_item`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of cart_cart_item
+-- ----------------------------
+INSERT INTO `cart_cart_item` VALUES (1, 1);
+
+-- ----------------------------
 -- Table structure for cart_item
 -- ----------------------------
 DROP TABLE IF EXISTS `cart_item`;
 CREATE TABLE `cart_item`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `active` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `product_id` bigint(20) NULL DEFAULT NULL,
-  `user` bigint(20) NOT NULL,
   `idc` bigint(20) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `product_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKjcyd5wv4igqnw413rgxbfu4nv`(`product_id`) USING BTREE,
   CONSTRAINT `FKjcyd5wv4igqnw413rgxbfu4nv` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cart_item
 -- ----------------------------
-INSERT INTO `cart_item` VALUES (3, 1, 2, 1, 1, 1);
-INSERT INTO `cart_item` VALUES (4, 1, 1, 2, 1, 2);
+INSERT INTO `cart_item` VALUES (1, 0, 1, 2, 0, 1);
 
 -- ----------------------------
 -- Table structure for color
@@ -435,12 +452,18 @@ DROP TABLE IF EXISTS `status`;
 CREATE TABLE `status`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `status_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `FKjdymer53u0cm5r4a6eegscymp`(`status_id`) USING BTREE,
-  CONSTRAINT `FK23k1ypfyegot33wfljw65lpgj` FOREIGN KEY (`id`) REFERENCES `cart` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FKjdymer53u0cm5r4a6eegscymp` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of status
+-- ----------------------------
+INSERT INTO `status` VALUES (1, 'Tất cả');
+INSERT INTO `status` VALUES (2, 'Đang xác nhận');
+INSERT INTO `status` VALUES (3, 'Đã xác nhận');
+INSERT INTO `status` VALUES (4, 'Đang giao');
+INSERT INTO `status` VALUES (5, 'Đã giao');
+INSERT INTO `status` VALUES (6, 'Đã hủy');
 
 -- ----------------------------
 -- Table structure for user
@@ -454,7 +477,6 @@ CREATE TABLE `user`  (
   `role` bigint(20) NULL DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `gender` bit(1) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe`(`email`) USING BTREE,
   INDEX `FKl5alypubd40lwejc45vl35wjb`(`role`) USING BTREE,
@@ -464,9 +486,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, 'linh đông, thành phố thủ đức, thành phố Hồ Chí Minh', '0355541981', b'0');
-INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, 'HCM', '0988766567', b'0');
-INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, 'HCM', '0988766567', b'0');
-INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, 'HCM', '0988766567', b'0');
+INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, 'linh đông, thành phố thủ đức, thành phố Hồ Chí Minh', '0355541981');
+INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, 'HCM', '0988766567');
+INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, 'HCM', '0988766567');
+INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, 'HCM', '0988766567');
 
 SET FOREIGN_KEY_CHECKS = 1;

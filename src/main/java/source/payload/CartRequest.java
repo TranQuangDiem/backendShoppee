@@ -2,11 +2,8 @@ package source.payload;
 
 import lombok.Data;
 
+import java.util.List;
 @Data
 public class CartRequest {
-    private long idc;
-    private long idp;
-    private NewProduct newProduct;
-    private int quantity;
-
+    private List<CartItems> cartItems;
 }
