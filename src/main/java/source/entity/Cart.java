@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private double total_price;
+    private double totalPrice;
     private double total_item;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
@@ -27,4 +28,8 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "cartItem_id") //Khóa ngoại thứ 2 trỏ tới thuộc tính ở dưới
     )
     private List<CartItem> cartItems;
+    @OneToOne
+    @JoinTable(name = "status")
+    private Status status;
+    private Timestamp date;
 }
