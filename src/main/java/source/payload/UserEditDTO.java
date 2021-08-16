@@ -10,6 +10,5 @@ public class UserEditDTO {
     private String email;
     private boolean gender;
     private String phone;
-    private String address;
     private Role role;
 }

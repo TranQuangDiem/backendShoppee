@@ -23,7 +23,6 @@ public class User {
     @Transient
     private String repassword;
     private String phone;
-    private String address;
     @OneToOne
     @JoinColumn(name = "role")
     private Role role;
