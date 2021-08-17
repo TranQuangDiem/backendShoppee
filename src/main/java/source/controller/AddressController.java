@@ -31,9 +31,9 @@ public class AddressController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setAddressList(addressService.finByUser(userId));
-            return ResponseEntity.ok().body(addressDTO);
+//            AddressDTO addressDTO = new AddressDTO();
+//            addressDTO.setAddressList();
+            return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
@@ -45,9 +45,9 @@ public class AddressController {
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
             AddressDTO addressDTO = new AddressDTO();
             List<Address> addressList = new ArrayList<>();
-            addressList.add(addressService.findByStatus("default"));
-            addressDTO.setAddressList(addressList);
-            return ResponseEntity.ok().body(addressDTO);
+//            addressList.add(addressService.findByStatus("default"));
+//            addressDTO.setAddressList(addressList);
+            return ResponseEntity.ok().body(addressService.findByStatus("default"));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
@@ -60,9 +60,9 @@ public class AddressController {
             address.setStatus("none");
             address.setUser(userId);
             addressService.save(address);
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setAddressList(addressService.finByUser(userId));
-            return ResponseEntity.ok().body(addressDTO);
+//            AddressDTO addressDTO = new AddressDTO();
+//            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
@@ -77,9 +77,9 @@ public class AddressController {
             address1.setName(address.getName());
             address1.setPhone(address.getPhone());
             addressService.save(address1);
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setAddressList(addressService.finByUser(userId));
-            return ResponseEntity.ok().body(addressDTO);
+//            AddressDTO addressDTO = new AddressDTO();
+//            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
@@ -92,9 +92,9 @@ public class AddressController {
             Address address1 = addressService.findById(id);
             address1.setStatus(address.getStatus());
             addressService.save(address1);
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setAddressList(addressService.finByUser(userId));
-            return ResponseEntity.ok().body(addressDTO);
+//            AddressDTO addressDTO = new AddressDTO();
+//            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
@@ -105,9 +105,9 @@ public class AddressController {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
             addressService.delete(addressService.findById(id));
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setAddressList(addressService.finByUser(userId));
-            return ResponseEntity.ok().body(addressDTO);
+//            AddressDTO addressDTO = new AddressDTO();
+//            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
         }
