@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 16/08/2021 20:58:02
+ Date: 17/08/2021 12:16:29
 */
 
 SET NAMES utf8mb4;
@@ -26,10 +26,18 @@ CREATE TABLE `address`  (
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `status` bit(1) NOT NULL,
   `user` bigint(20) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of address
+-- ----------------------------
+INSERT INTO `address` VALUES (1, 'tp HCM', 'trandiem', '0355541981', b'1', 1);
+INSERT INTO `address` VALUES (2, 'Đồng Nai', 'trandiem', '0355541981', b'0', 1);
+INSERT INTO `address` VALUES (3, 'linh trung , thủ đức', 'trandiem', '0355541981', b'0', 1);
+INSERT INTO `address` VALUES (4, 'abc', 'trandiem', '0355541981', b'0', 1);
 
 -- ----------------------------
 -- Table structure for brand
@@ -490,6 +498,7 @@ CREATE TABLE `user`  (
   `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `role` bigint(20) NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe`(`email`) USING BTREE,
   INDEX `FKl5alypubd40lwejc45vl35wjb`(`role`) USING BTREE,
@@ -499,9 +508,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, '0355541981');
-INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, '0988766567');
-INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, '0988766567');
-INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, '0988766567');
+INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, '0355541981', NULL);
+INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, '0988766567', NULL);
+INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, '0988766567', NULL);
+INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, '0988766567', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

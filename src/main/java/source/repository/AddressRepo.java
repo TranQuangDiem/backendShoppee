@@ -10,5 +10,7 @@ import java.util.List;
 public interface AddressRepo extends JpaRepository<Address,Long> {
     List<Address> findByUser(long userId);
     Address findById(long id);
-    Address findByStatus(String status);
+    Address findByStatus(boolean status);
+    Address findByUserAndStatus(long id , boolean status);
+
 }

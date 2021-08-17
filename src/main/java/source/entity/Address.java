@@ -14,6 +14,7 @@ public class Address {
     private String name;
     private String phone;
     private String address;
-    private String status;
+    private boolean status;
     private long user;
+
 }

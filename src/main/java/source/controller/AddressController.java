@@ -47,8 +47,9 @@ public class AddressController {
             List<Address> addressList = new ArrayList<>();
 //            addressList.add(addressService.findByStatus("default"));
 //            addressDTO.setAddressList(addressList);
-            return ResponseEntity.ok().body(addressService.findByStatus("default"));
+            return ResponseEntity.ok().body(addressService.findByUserAndStatus(userId,true));
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(401).body(new Message("error"));
         }
     }
@@ -57,13 +58,14 @@ public class AddressController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-            address.setStatus("none");
+//            address.setStatus("none");
             address.setUser(userId);
-            addressService.save(address);
+            addressService.save(address,userId);
 //            AddressDTO addressDTO = new AddressDTO();
 //            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(401).body(new Message("error"));
         }
     }
@@ -76,7 +78,7 @@ public class AddressController {
             address1.setAddress(address.getAddress());
             address1.setName(address.getName());
             address1.setPhone(address.getPhone());
-            addressService.save(address1);
+            addressService.save(address1,userId);
 //            AddressDTO addressDTO = new AddressDTO();
 //            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
@@ -90,8 +92,8 @@ public class AddressController {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
             Address address1 = addressService.findById(id);
-            address1.setStatus(address.getStatus());
-            addressService.save(address1);
+            address1.setStatus(address.isStatus());
+            addressService.save(address1,userId);
 //            AddressDTO addressDTO = new AddressDTO();
 //            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));

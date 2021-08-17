@@ -11,7 +11,14 @@ import java.util.List;
 public class AddressService {
     @Autowired
     AddressRepo addressRepo;
-    public void save(Address address){
+    public void save(Address address,long userId){
+        if (address.isStatus()){
+            Address a = addressRepo.findByUserAndStatus(userId,true);
+            if(a!=null) {
+                a.setStatus(false);
+                addressRepo.save(a);
+            }
+        }
         addressRepo.save(address);
     }
     public Address findById(long id){
@@ -23,7 +30,7 @@ public class AddressService {
     public void delete(Address address){
         addressRepo.delete(address);
     }
-    public Address findByStatus(String status){
-        return addressRepo.findByStatus(status);
+    public Address findByUserAndStatus(long userId,boolean status){
+        return addressRepo.findByUserAndStatus(userId,status);
     }
 }
