@@ -6,12 +6,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Address;
 import source.jwt.JwtTokenProvider;
-import source.payload.AddressDTO;
 import source.payload.Message;
 import source.service.AddressService;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -31,8 +28,6 @@ public class AddressController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-//            AddressDTO addressDTO = new AddressDTO();
-//            addressDTO.setAddressList();
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
@@ -43,10 +38,6 @@ public class AddressController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-            AddressDTO addressDTO = new AddressDTO();
-            List<Address> addressList = new ArrayList<>();
-//            addressList.add(addressService.findByStatus("default"));
-//            addressDTO.setAddressList(addressList);
             return ResponseEntity.ok().body(addressService.findByUserAndStatus(userId,true));
         }catch (Exception e){
             e.printStackTrace();
@@ -58,11 +49,8 @@ public class AddressController {
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
-//            address.setStatus("none");
             address.setUser(userId);
             addressService.save(address,userId);
-//            AddressDTO addressDTO = new AddressDTO();
-//            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             e.printStackTrace();
@@ -78,9 +66,8 @@ public class AddressController {
             address1.setAddress(address.getAddress());
             address1.setName(address.getName());
             address1.setPhone(address.getPhone());
+            address1.setStatus(address.isStatus());
             addressService.save(address1,userId);
-//            AddressDTO addressDTO = new AddressDTO();
-//            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
@@ -94,8 +81,6 @@ public class AddressController {
             Address address1 = addressService.findById(id);
             address1.setStatus(address.isStatus());
             addressService.save(address1,userId);
-//            AddressDTO addressDTO = new AddressDTO();
-//            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
@@ -107,8 +92,6 @@ public class AddressController {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
             addressService.delete(addressService.findById(id));
-//            AddressDTO addressDTO = new AddressDTO();
-//            addressDTO.setAddressList(addressService.finByUser(userId));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
             return ResponseEntity.status(401).body(new Message("error"));
