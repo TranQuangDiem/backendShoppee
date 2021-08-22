@@ -12,5 +12,6 @@ public interface AddressRepo extends JpaRepository<Address,Long> {
     Address findById(long id);
     Address findByStatus(boolean status);
     Address findByUserAndStatus(long id , boolean status);
+    void deleteAllByUser(long userid);
 
 }

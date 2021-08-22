@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Address;
 import source.jwt.JwtTokenProvider;
+import source.payload.AddressDTO;
 import source.payload.Message;
 import source.service.AddressService;
 
@@ -94,6 +95,34 @@ public class AddressController {
             addressService.delete(addressService.findById(id));
             return ResponseEntity.ok().body(addressService.finByUser(userId));
         }catch (Exception e){
+            return ResponseEntity.status(401).body(new Message("error"));
+        }
+    }
+    @GetMapping("/v2/address")
+    public ResponseEntity getAddressList(@RequestHeader("Authorization") String jwt) {
+        try {
+            String[] a = jwt.split(" ");
+            long userId = tokenProvider.getUserIdFromJWT(a[1]);
+            AddressDTO addressDTO = new AddressDTO();
+            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(new Message("error"));
+        }
+    }
+    @PostMapping("/v2/address")
+    public ResponseEntity saveAddressList( @RequestBody AddressDTO addressDTO,@RequestHeader("Authorization") String jwt) {
+        try {
+            String[] a = jwt.split(" ");
+            long userId = tokenProvider.getUserIdFromJWT(a[1]);
+            addressService.deleteAllByUserId(userId);
+            for (Address address:addressDTO.getAddressList()) {
+                addressService.save(address,userId);
+            }
+            addressDTO.setAddressList(addressService.finByUser(userId));
+            return ResponseEntity.ok().body(addressDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(401).body(new Message("error"));
         }
     }

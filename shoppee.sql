@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 17/08/2021 12:16:29
+ Date: 22/08/2021 20:47:00
 */
 
 SET NAMES utf8mb4;
@@ -22,22 +22,20 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `status` bit(1) NOT NULL,
   `user` bigint(20) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of address
 -- ----------------------------
-INSERT INTO `address` VALUES (1, 'tp HCM', 'trandiem', '0355541981', b'1', 1);
-INSERT INTO `address` VALUES (2, 'Đồng Nai', 'trandiem', '0355541981', b'0', 1);
-INSERT INTO `address` VALUES (3, 'linh trung , thủ đức', 'trandiem', '0355541981', b'0', 1);
-INSERT INTO `address` VALUES (4, 'abc', 'trandiem', '0355541981', b'0', 1);
+INSERT INTO `address` VALUES (1, 'abc12', 'trandiem', '0355541981', b'0', 1);
+INSERT INTO `address` VALUES (2, 'Đồng Nai', 'trandiem', '0355541981', b'1', 1);
 
 -- ----------------------------
 -- Table structure for brand
@@ -86,7 +84,7 @@ CREATE TABLE `cart`  (
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
-INSERT INTO `cart` VALUES (1, 'tp hcm', 600000, '2021-08-15 20:03:22', 'trandiem1006@gmail.com', 'Trần Quang Diệm', 'COD', '0355541981', 620000, 2, 1);
+INSERT INTO `cart` VALUES (1, 'tp hcm', 600000, '2021-08-15 20:03:22', 'trandiem1006@gmail.com', 'Trần Quang Diệm', 'COD', '0355541981', 620000, 6, 1);
 
 -- ----------------------------
 -- Table structure for cart_cart_item

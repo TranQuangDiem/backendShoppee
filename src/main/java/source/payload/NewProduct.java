@@ -23,6 +23,7 @@ public class NewProduct {
     private double salePrice;
     private List<Color> colors;
     private String type;
+    private List<CommentDTO> comment;
     private int active;
 
 }

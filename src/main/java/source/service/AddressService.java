@@ -33,4 +33,9 @@ public class AddressService {
     public Address findByUserAndStatus(long userId,boolean status){
         return addressRepo.findByUserAndStatus(userId,status);
     }
+    public void deleteAllByUserId(long userId){
+        for (Address address:addressRepo.findByUser(userId)) {
+            addressRepo.delete(address);
+        }
+    }
 }
