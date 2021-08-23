@@ -21,7 +21,7 @@ public class NewProduct {
     private Date createDate;
     private double sale;
     private double salePrice;
-    private List<Color> colors;
+    private Color colors;
     private String type;
     private List<CommentDTO> comment;
     private int active;

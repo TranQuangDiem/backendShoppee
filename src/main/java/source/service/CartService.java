@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import source.entity.*;
 import source.payload.*;
-import source.repository.CartRepo;
-import source.repository.CommentRepository;
-import source.repository.StatusRepo;
-import source.repository.UserRepository;
+import source.repository.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,6 +23,8 @@ public class CartService {
     UserRepository userRepository;
     @Autowired
     CommentRepository commentRepo;
+    @Autowired
+    ColorRepo colorRepo;
     public void save (Order order,long userId){
         List<CartItem> cartItems = new ArrayList<CartItem>();
         for (CartItems cartItems1:order.getCartItems()) {
@@ -58,8 +57,8 @@ public class CartService {
             List<CartItems> cartItems = new ArrayList<CartItems>();
             for (CartItem cartItem:cart.getCartItems()) {
                 NewProduct newProduct =mapper.map(cartItem.getProduct(), NewProduct.class);
+                newProduct.setColors(colorRepo.findById(cartItem.getIdc()));
                 CartItems c =mapper.map(cartItem, CartItems.class);
-
                 List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
                 for (Comment comment: commentRepo.findByIdproductAndUser_Id(newProduct.getId(),userId)) {
                     CommentDTO commentDTO = mapper.map(comment,CommentDTO.class);
