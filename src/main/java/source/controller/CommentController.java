@@ -5,9 +5,8 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Rate;
-import source.payload.CommentDTO;
-import source.payload.CommentPaginationDTO;
-import source.payload.Pagination;
+import source.jwt.JwtTokenProvider;
+import source.payload.*;
 import source.service.CommentService;
 import source.service.RateService;
 
@@ -22,6 +21,8 @@ public class CommentController {
     CommentService commentService;
     @Autowired
     RateService rateService;
+    @Autowired
+    private JwtTokenProvider tokenProvider;
     @GetMapping("/comments")
     public ResponseEntity getComments(@RequestParam("id") long id, @RequestParam(value = "_page",required = false) Integer page,@RequestParam(value = "_limit",required = false) Optional<Integer> size,
                                       @RequestParam(value = "rate",required = false) Optional<Integer> rate){
@@ -66,5 +67,19 @@ public class CommentController {
 //        avg = (total*5)/(comments.size()*5);
 //        rate.setAvg(avg);
         return ResponseEntity.ok().body(rates);
+    }
+    @PostMapping("/orderManager/comment")
+    public ResponseEntity saveComment(@RequestHeader("Authorization") String jwt, @RequestBody List<CommentRequest> commentRequests){
+        try {
+            String[] a = jwt.split(" ");
+            long userId = tokenProvider.getUserIdFromJWT(a[1]);
+            for (CommentRequest comment : commentRequests) {
+                commentService.save(comment, userId);
+            }
+            return ResponseEntity.ok().body(new Message("lưu thành công"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(new Message("error"));
+        }
     }
 }

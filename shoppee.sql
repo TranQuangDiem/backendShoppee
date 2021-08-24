@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 22/08/2021 20:47:00
+ Date: 24/08/2021 16:05:43
 */
 
 SET NAMES utf8mb4;
@@ -180,16 +180,21 @@ CREATE TABLE `comment`  (
   `idproduct` bigint(20) NOT NULL,
   `rate` int(11) NOT NULL,
   `user_id` bigint(20) NULL DEFAULT NULL,
+  `color_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK8kcum44fvpupyw6f5baccx25c`(`user_id`) USING BTREE,
-  CONSTRAINT `FK8kcum44fvpupyw6f5baccx25c` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  INDEX `FK9l3ugr00fvkrpdwq2035giglp`(`color_id`) USING BTREE,
+  CONSTRAINT `FK8kcum44fvpupyw6f5baccx25c` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK9l3ugr00fvkrpdwq2035giglp` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1, 4, 1);
-INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2);
+INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1, 4, 1, 2);
+INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2, 2);
+INSERT INTO `comment` VALUES (3, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 2, 5, 1, 2);
+INSERT INTO `comment` VALUES (4, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 1, 5, 1, 2);
 
 -- ----------------------------
 -- Table structure for forgot_password

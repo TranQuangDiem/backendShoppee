@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 @Data
 public class OrderManagerDTO {
+    private long id;
     private String fullname;
     private String email;
     private String phone;

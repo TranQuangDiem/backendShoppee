@@ -19,5 +19,8 @@ public class Comment {
     private int rate;
     private String content;
     private Timestamp date;
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
     private int active;
 }
