@@ -1,6 +1,8 @@
 package source.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import source.entity.Product;
 
@@ -16,13 +18,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByActiveOrderByQuantitySoldDesc(int active);
     List<Product> findByActiveAndStatus(int active,String status);
     // danh sách sản phẩm theo  tên sản phẩm
-    List<Product> findByNameLikeAndActive(String name,int active);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActive(@Param("name") String name,@Param("active") int active);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo ngày tạo tăng dần
     List<Product> findByNameLikeAndActiveOrderByCreateDateAsc(String name,int active);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo ngày tạo giảm dần
-    List<Product> findByNameLikeAndActiveOrderByCreateDateDesc(String name,int active);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active order by create_date desc",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActiveOrderByCreateDateDesc(@Param("name") String name,@Param("active") int active);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo ngày tạo giảm dần
     List<Product> findByNameLikeAndActiveOrderByCreateDateDescPriceDesc(String name,int active);
@@ -35,19 +39,23 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo số lượng bán.   giá giảm dần
     List<Product> findByNameLikeAndActiveOrderByQuantitySoldDescPriceAsc(String name,int active);
-    List<Product> findByNameLikeAndActiveOrderByQuantitySoldDesc(String name, int active);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active order by quantity_sold desc",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActiveOrderByQuantitySoldDesc(@Param("name") String name,@Param("active") int active);
 
     List<Product> findByNameLikeAndActiveAndStatusOrderByPriceAsc(String name, int active, String status);
     List<Product> findByNameLikeAndActiveAndStatusOrderByPriceDesc(String name, int active, String status);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo giá tăng dần
-    List<Product> findByNameLikeAndActiveOrderBySalePriceAsc(String name,int active);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active order by sale_price asc ",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActiveOrderBySalePriceAsc(@Param("name") String name,@Param("active") int active);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo giá giảm dần
-    List<Product> findByNameLikeAndActiveOrderBySalePriceDesc(String name,int active);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active order by sale_price desc",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActiveOrderBySalePriceDesc(@Param("name") String name,@Param("active") int active);
 
     // danh sách sản phẩm theo  tên sản phẩm sắp xếp theo ngày tạo tăng dần
-    List<Product> findByNameLikeAndActiveAndStatus(String name,int active,String status);
+    @Query(value = "select * from Product p where p.name LIKE %:name% and p.active=:active and p.status=:status",nativeQuery = true)
+    List<Product> findByNameIsLikeAndActiveAndStatus(@Param("name") String name,@Param("active") int active,@Param("status") String status);
 
     //danh sách sản phẩm theo khoảng giá
     List<Product> findBySalePriceBetweenAndActive(double min, double max,int active);

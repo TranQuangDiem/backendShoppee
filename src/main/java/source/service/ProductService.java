@@ -3,6 +3,7 @@ package source.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import source.entity.Product;
+import source.entity.SearchHistory;
 import source.repository.ProductRepository;
 
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.List;
 public class ProductService {
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    SearchServive searchServive;
     // hiển thị sản phẩm theo id
     public Product findById(long id){
         return productRepository.findByIdAndActive(id,1);
@@ -24,22 +26,33 @@ public class ProductService {
                                        String sortBy, String sortPrice, double rateMin,double rateMax) {
         List<Product> products =productRepository.findByActive(1);
         if (search!=null) {
+            SearchHistory s = searchServive.findByTitle(search);
+            if(s!=null){
+                SearchHistory searchHistory = new SearchHistory();
+                searchHistory.setTitle(search);
+                searchServive.delete(s);
+                searchServive.save(searchHistory);
+            }else {
+                SearchHistory searchHistory = new SearchHistory();
+                searchHistory.setTitle(search);
+                searchServive.save(searchHistory);
+            }
             if (sortBy!=null) {
                 if ("ctime".equals(sortBy)) {
-                    return productRepository.findByNameLikeAndActiveOrderByCreateDateDesc(search, 1);
+                    return productRepository.findByNameIsLikeAndActiveOrderByCreateDateDesc(search, 1);
                 } else if ("pop".equals(sortBy)) {
-                    return productRepository.findByNameLikeAndActiveAndStatus(search, 1, "phổ biến");
+                    return productRepository.findByNameIsLikeAndActiveAndStatus(search, 1, "phổ biến");
                 } else if ("sales".equals(sortBy)) {
-                    return productRepository.findByNameLikeAndActiveOrderByQuantitySoldDesc(search, 1);
+                    return productRepository.findByNameIsLikeAndActiveOrderByQuantitySoldDesc(search, 1);
                 } else if ("price".equals(sortBy) && sortPrice != null) {
                     if ("asc".equals(sortPrice)) {
-                        return productRepository.findByNameLikeAndActiveOrderBySalePriceAsc(search, 1);
+                        return productRepository.findByNameIsLikeAndActiveOrderBySalePriceAsc(search, 1);
                     } else {
-                        return productRepository.findByNameLikeAndActiveOrderBySalePriceDesc(search, 1);
+                        return productRepository.findByNameIsLikeAndActiveOrderBySalePriceDesc(search, 1);
                     }
                 }
             }else {
-                return productRepository.findByNameLikeAndActive(search, 1);
+                return productRepository.findByNameIsLikeAndActive(search, 1);
             }
         }else if (brand>1){
             if (sortBy!=null){

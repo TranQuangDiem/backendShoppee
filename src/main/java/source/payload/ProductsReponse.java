@@ -8,4 +8,5 @@ import java.util.List;
 public class ProductsReponse {
     List<Product> products;
     Pagination pagination;
+    String  title_like;
 }

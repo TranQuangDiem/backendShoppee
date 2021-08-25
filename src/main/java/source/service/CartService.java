@@ -60,12 +60,13 @@ public class CartService {
                 newProduct.setColors(colorRepo.findById(cartItem.getIdc()));
                 CartItems c =mapper.map(cartItem, CartItems.class);
                 List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
-                for (Comment comment: commentRepo.findByIdproductAndUser_Id(newProduct.getId(),userId)) {
+                for (Comment comment: commentRepo.findByIdproductAndUser_IdAndColor_IdOrderByIdDesc(newProduct.getId(),userId,cartItem.getIdc())) {
                     CommentDTO commentDTO = mapper.map(comment,CommentDTO.class);
                     commentDTO.setUserName(comment.getUser().getFullname());
                     commentDTOList.add(commentDTO);
                 }
                 newProduct.setComment(commentDTOList);
+                c.setIdp(newProduct.getId());
                 c.setNewProduct(newProduct);
                 cartItems.add(c);
             }

@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(corsConfigurationSource());
         http.cors().and().csrf().disable().authorizeRequests()
-                    .antMatchers("/api/login","/api/rates","/api/register","/api/brands","/api/orderManager/status",
+                    .antMatchers("/api/login","/api/rates","/api/register","/api/brands","/api/orderManager/status","/api/search/history",
                             "/api/user/forgotPassword","/api/user/changePassword","/api/comment/rate","/api/comments","/api/product","/api/products").permitAll() // Cho phép tất cả mọi người truy cập vào 2 địa chỉ này
                     .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 

@@ -6,12 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import source.entity.Brand;
 import source.entity.Product;
+import source.entity.SearchHistory;
 import source.payload.Message;
 import source.payload.Pagination;
 import source.payload.ProductsReponse;
 import source.service.BrandService;
 import source.service.ProductService;
 import source.service.RateProductService;
+import source.service.SearchServive;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,8 @@ public class ProductRestController {
     BrandService brandService;
     @Autowired
     RateProductService rateProductService;
+    @Autowired
+    SearchServive searchServive;
     @GetMapping("/brands")
     public ResponseEntity getBrands(){
         List<Brand> brands = brandService.findAll();
@@ -99,7 +103,20 @@ public class ProductRestController {
         pagination.set_page(page);
         pagination.set_total(productPage.size());
         products.setPagination(pagination);
+        products.setTitle_like(search);
         return ResponseEntity.ok().body(products);
     }
-
+    @GetMapping("/search/history")
+    public ResponseEntity searchHistory(){
+        return ResponseEntity.ok().body(searchServive.findAll());
+    }
+    @DeleteMapping("/search/history")
+    public ResponseEntity deleteSearchHistory(@RequestParam("id") long id){
+        SearchHistory searchHistory = searchServive.findById(id);
+        if(searchHistory!=null){
+            searchServive.delete(searchHistory);
+            return ResponseEntity.ok().body(searchServive.findAll());
+        }
+        return ResponseEntity.badRequest().body(new Message("title không tồn tại"));
+    }
 }
