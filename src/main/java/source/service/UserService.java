@@ -30,7 +30,6 @@ public class UserService implements UserDetailsService {
     public void edit(UserEditDTO userEditDTO, User user){
         user.setEmail(userEditDTO.getEmail());
         user.setFullname(userEditDTO.getFullname());
-//        user.setAddress(userEditDTO.getAddress());
         user.setPhone(userEditDTO.getPhone());
         userRepository.save(user);
     }

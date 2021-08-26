@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 24/08/2021 16:05:43
+ Date: 26/08/2021 20:56:33
 */
 
 SET NAMES utf8mb4;
@@ -79,12 +79,13 @@ CREATE TABLE `cart`  (
   INDEX `FKl70asp4l4w0jmbm1tqyofho4o`(`user_id`) USING BTREE,
   CONSTRAINT `FKl70asp4l4w0jmbm1tqyofho4o` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKob42hsql0hyy4ouflbljt3s9` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
 INSERT INTO `cart` VALUES (1, 'tp hcm', 600000, '2021-08-15 20:03:22', 'trandiem1006@gmail.com', 'Trần Quang Diệm', 'COD', '0355541981', 620000, 6, 1);
+INSERT INTO `cart` VALUES (3, 'tp hcm', 600000, '2021-08-26 11:12:29', 'trandiem1006@gmail.com', 'Trần Quang Diệm', 'COD', '0355541981', 620000, 2, 1);
 
 -- ----------------------------
 -- Table structure for cart_cart_item
@@ -103,6 +104,8 @@ CREATE TABLE `cart_cart_item`  (
 -- Records of cart_cart_item
 -- ----------------------------
 INSERT INTO `cart_cart_item` VALUES (1, 1);
+INSERT INTO `cart_cart_item` VALUES (1, 2);
+INSERT INTO `cart_cart_item` VALUES (3, 4);
 
 -- ----------------------------
 -- Table structure for cart_item
@@ -118,12 +121,14 @@ CREATE TABLE `cart_item`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKjcyd5wv4igqnw413rgxbfu4nv`(`product_id`) USING BTREE,
   CONSTRAINT `FKjcyd5wv4igqnw413rgxbfu4nv` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cart_item
 -- ----------------------------
-INSERT INTO `cart_item` VALUES (1, 0, 1, 2, 0, 1);
+INSERT INTO `cart_item` VALUES (1, 0, 1, 2, 1, 1);
+INSERT INTO `cart_item` VALUES (2, 0, 2, 1, 1, 1);
+INSERT INTO `cart_item` VALUES (4, 0, 1, 2, 1, 2);
 
 -- ----------------------------
 -- Table structure for color
@@ -181,20 +186,24 @@ CREATE TABLE `comment`  (
   `rate` int(11) NOT NULL,
   `user_id` bigint(20) NULL DEFAULT NULL,
   `color_id` bigint(20) NULL DEFAULT NULL,
+  `ido` bigint(20) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK8kcum44fvpupyw6f5baccx25c`(`user_id`) USING BTREE,
   INDEX `FK9l3ugr00fvkrpdwq2035giglp`(`color_id`) USING BTREE,
   CONSTRAINT `FK8kcum44fvpupyw6f5baccx25c` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK9l3ugr00fvkrpdwq2035giglp` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1, 4, 1, 2);
-INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2, 2);
-INSERT INTO `comment` VALUES (3, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 2, 5, 1, 2);
-INSERT INTO `comment` VALUES (4, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 1, 5, 1, 2);
+INSERT INTO `comment` VALUES (1, 1, 'sản phẩm rất tốt', '2021-08-02', 1, 4, 1, 2, 1);
+INSERT INTO `comment` VALUES (2, 1, 'sản phẩm rất đẹp', '2021-08-03', 1, 5, 2, 2, 0);
+INSERT INTO `comment` VALUES (3, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 2, 5, 1, 2, 0);
+INSERT INTO `comment` VALUES (4, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-24', 1, 5, 1, 2, 0);
+INSERT INTO `comment` VALUES (5, 1, 'sản phẩm rất đẹp jbkvk xc', '2021-08-25', 1, 5, 1, 1, 1);
+INSERT INTO `comment` VALUES (7, 1, 'cccccccc', '2021-08-26', 1, 5, 1, 1, 1);
+INSERT INTO `comment` VALUES (8, 1, 'abc xyz', '2021-08-26', 2, 5, 1, 1, 3);
 
 -- ----------------------------
 -- Table structure for forgot_password
@@ -454,6 +463,26 @@ INSERT INTO `role` VALUES (1, 'ROLE_USER');
 INSERT INTO `role` VALUES (2, 'ROLE_ADMIN');
 
 -- ----------------------------
+-- Table structure for search_history
+-- ----------------------------
+DROP TABLE IF EXISTS `search_history`;
+CREATE TABLE `search_history`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title_like` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of search_history
+-- ----------------------------
+INSERT INTO `search_history` VALUES (3, NULL, 'ab21c');
+INSERT INTO `search_history` VALUES (4, NULL, 'grey1c');
+INSERT INTO `search_history` VALUES (5, NULL, 'abc');
+INSERT INTO `search_history` VALUES (9, NULL, 'Grey');
+INSERT INTO `search_history` VALUES (12, NULL, 'grey');
+
+-- ----------------------------
 -- Table structure for size
 -- ----------------------------
 DROP TABLE IF EXISTS `size`;
@@ -501,7 +530,6 @@ CREATE TABLE `user`  (
   `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `role` bigint(20) NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe`(`email`) USING BTREE,
   INDEX `FKl5alypubd40lwejc45vl35wjb`(`role`) USING BTREE,
@@ -511,9 +539,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'Trn diem', 1, '0355541981', NULL);
-INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, '0988766567', NULL);
-INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, '0988766567', NULL);
-INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, '0988766567', NULL);
+INSERT INTO `user` VALUES (1, '$2a$10$rKUwzUdJuvzfodKFp1wgdeZkiYdWym40ws9ajMo/dDjDH6ktVBrGC', 'trandiem1006@gmail.com', 'trandiem1', 1, '0355541981');
+INSERT INTO `user` VALUES (2, '$2a$10$XXARQLMqprTTKNg4Po2EXOJ3gclH1ZnhMXEdto2QyHj/mlHjQtfw6', 'dinh8@gmail.com', 'dinh8', 1, '0988766567');
+INSERT INTO `user` VALUES (3, '$2a$10$x9Yr2OjDYRWHifhHqKTAoOy.kFeokiJeJ9hU5/qbWPzvaxnjrDXly', 'dinh8@gmai', 'dinh8', 1, '0988766567');
+INSERT INTO `user` VALUES (4, '$2a$10$kW7rvLRO5A4Aavr3kwW6OudtK8TAoZVwhT.ewcADaDz2P98jgEFfW', 'dinh8+test1@gmail.com', 'dinh8', 1, '0988766567');
 
 SET FOREIGN_KEY_CHECKS = 1;

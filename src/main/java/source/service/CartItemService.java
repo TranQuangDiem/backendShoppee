@@ -32,7 +32,6 @@ public class CartItemService {
             newProduct.setColors(colorRepo.findById(cartItem.getIdc()));
             cartRequest.setIdp(newProduct.getId());
             cartRequest.setNewProduct(newProduct);
-            cartRequest.setIdp(newProduct.getId());
             cartRequests.add(cartRequest);
             cartItemRepo.delete(cartItem);
         }

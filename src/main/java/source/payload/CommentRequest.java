@@ -8,4 +8,5 @@ public class CommentRequest {
     private String content;
     private long idp;
     private long idc;
+    private long ido;
 }

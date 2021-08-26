@@ -22,5 +22,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;
+    private long ido;
     private int active;
 }

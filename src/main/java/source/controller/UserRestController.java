@@ -74,7 +74,6 @@ public class UserRestController {
             return ResponseEntity.badRequest().body(new Message("Email đã tồn tại trong hệ thống"));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.findById(1));
-        System.out.println(user);
         userService.save(user);
         UserReponse userDto = mapper.map(user, UserReponse.class);
         String jwt = tokenProvider.generateToken(userService.findByEmail(user.getEmail()));
@@ -87,11 +86,16 @@ public class UserRestController {
             return ResponseEntity.status(401).body("Authenticaton");
         long id = tokenProvider.getUserIdFromJWT(a[1]);
         User user = userService.findById(id);
+        if(!userEditDTO.getEmail().equals(user.getEmail())&&userService.findByEmail(userEditDTO.getEmail())!=null){
+            return ResponseEntity.badRequest().body(new Message("email đã tồn tại trong hệ thống"));
+        }
         if (user!=null) {
-//            userService.edit(userEditDTO, user);
-            return ResponseEntity.ok().body("cập nhật thông tin user thành công");
+            userService.edit(userEditDTO, user);
+            UserReponse userDto = mapper.map(userService.findById(id), UserReponse.class);
+            String jwt1 = tokenProvider.generateToken(userService.findByEmail(user.getEmail()));
+            return ResponseEntity.ok().body(new LoginResponse(jwt1,userDto));
         }else {
-            return ResponseEntity.status(400).body(new Message("Tài khoản không tồn tại trong hệ thống"));
+            return ResponseEntity.badRequest().body(new Message("Tài khoản không tồn tại trong hệ thống"));
         }
     }
     // Api /api/random yêu cầu phải xác thực mới có thể request

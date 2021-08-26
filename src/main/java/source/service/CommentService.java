@@ -60,6 +60,7 @@ public class CommentService {
         comment.setContent(commentRequest.getContent());
         comment.setRate(commentRequest.getRate());
         comment.setIdproduct(commentRequest.getIdp());
+        comment.setIdo(commentRequest.getIdo());
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
         Timestamp datetime = new Timestamp(date.getTime());
