@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import source.entity.Rate;
 import source.jwt.JwtTokenProvider;
 import source.payload.*;
+import source.service.CartService;
 import source.service.CommentService;
 import source.service.RateService;
 
@@ -23,6 +24,8 @@ public class CommentController {
     RateService rateService;
     @Autowired
     private JwtTokenProvider tokenProvider;
+    @Autowired
+    CartService cartService;
     @GetMapping("/comments")
     public ResponseEntity getComments(@RequestParam("id") long id, @RequestParam(value = "_page",required = false) Integer page,@RequestParam(value = "_limit",required = false) Optional<Integer> size,
                                       @RequestParam(value = "rate",required = false) Optional<Integer> rate){
@@ -69,14 +72,34 @@ public class CommentController {
         return ResponseEntity.ok().body(rates);
     }
     @PostMapping("/orderManager/comment")
-    public ResponseEntity saveComment(@RequestHeader("Authorization") String jwt, @RequestBody List<CommentRequest> commentRequests){
+    public ResponseEntity saveComment(@RequestHeader("Authorization") String jwt, @RequestBody List<CommentRequest> commentRequests, @RequestParam("status")Optional<Long> status,@RequestParam(required = false, value = "_page") Integer page,
+                                      @RequestParam("_limit") Optional<Integer> size){
         try {
             String[] a = jwt.split(" ");
             long userId = tokenProvider.getUserIdFromJWT(a[1]);
+            long status1 = status.orElse((long) 1);
             for (CommentRequest comment : commentRequests) {
                 commentService.save(comment, userId);
             }
-            return ResponseEntity.ok().body(new Message("lưu thành công"));
+            List<OrderManagerDTO> orderManagerDTOS;
+            orderManagerDTOS = cartService.findByOder(userId,status1);
+            int pagesize = size.orElse(12);
+            PagedListHolder<OrderManagerDTO> pagedListHolder = new PagedListHolder<>(orderManagerDTOS);
+            pagedListHolder.setPageSize(pagesize);
+            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) page = 1;
+            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
+                pagedListHolder.setPage(0);
+            } else if (page <= pagedListHolder.getPageCount()) {
+                pagedListHolder.setPage(page - 1);
+            }
+            OrderManagerPagination managerPagination = new OrderManagerPagination();
+            managerPagination.setData(pagedListHolder.getPageList());
+            Pagination pagination = new Pagination();
+            pagination.set_limit(pagesize);
+            pagination.set_page(page);
+            pagination.set_total(orderManagerDTOS.size());
+            managerPagination.setPagination(pagination);
+            return ResponseEntity.ok().body(managerPagination);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.badRequest().body(new Message("error"));

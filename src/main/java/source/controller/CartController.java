@@ -221,14 +221,34 @@ public class CartController {
         return ResponseEntity.ok().body(statusService.findAll());
     }
     @PutMapping("/orderManager/{id}")
-    public ResponseEntity cancelOrrder(@PathVariable("id") long id,@RequestHeader("Authorization") String jwt){
+    public ResponseEntity cancelOrrder(@PathVariable("id") long id,@RequestHeader("Authorization") String jwt, @RequestParam("status")Optional<Long> status,@RequestParam(required = false, value = "_page") Integer page,
+                                       @RequestParam("_limit") Optional<Integer> size){
         String[] a = jwt.split(" ");
         long userId = tokenProvider.getUserIdFromJWT(a[1]);
+        long status1 = status.orElse((long) 1);
         Cart cart =cartService.findById(id);
         if (cart.getStatus().getId()==2){
             cart.setStatus(statusService.findById(6));
             cartService.update(cart);
-            return ResponseEntity.ok().body(new Message("đã hủy thành công"));
+            List<OrderManagerDTO> orderManagerDTOS;
+            orderManagerDTOS = cartService.findByOder(userId,status1);
+            int pagesize = size.orElse(12);
+            PagedListHolder<OrderManagerDTO> pagedListHolder = new PagedListHolder<>(orderManagerDTOS);
+            pagedListHolder.setPageSize(pagesize);
+            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) page = 1;
+            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
+                pagedListHolder.setPage(0);
+            } else if (page <= pagedListHolder.getPageCount()) {
+                pagedListHolder.setPage(page - 1);
+            }
+            OrderManagerPagination managerPagination = new OrderManagerPagination();
+            managerPagination.setData(pagedListHolder.getPageList());
+            Pagination pagination = new Pagination();
+            pagination.set_limit(pagesize);
+            pagination.set_page(page);
+            pagination.set_total(orderManagerDTOS.size());
+            managerPagination.setPagination(pagination);
+            return ResponseEntity.ok().body(managerPagination);
         }else {
             return ResponseEntity.badRequest().body(new Message("đơn hàng không thể hủy"));
         }
