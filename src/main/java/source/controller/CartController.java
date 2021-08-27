@@ -227,7 +227,7 @@ public class CartController {
         long userId = tokenProvider.getUserIdFromJWT(a[1]);
         long status1 = status.orElse((long) 1);
         Cart cart =cartService.findById(id);
-        if (cart.getStatus().getId()==2){
+        if (cart.getStatus().getId()==2 || cart.getStatus().getId()==3){
             cart.setStatus(statusService.findById(6));
             cartService.update(cart);
             List<OrderManagerDTO> orderManagerDTOS;
